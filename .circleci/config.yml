@@ -33,7 +33,7 @@ jobs:
           name: Run Tests
           command: npm run test
       - persist_to_workspace:
-          root: workspace
+          root: project
           paths:
             - echo-output
 
@@ -42,7 +42,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: /tmp/project
       - checkout
       - run:
           name: install tar and gzip
@@ -53,10 +53,10 @@ jobs:
           name: compress build
           command: |
             cd ..
-            tar -zcvf /tmp/workspace/my-app-binary.tar.gz /tmp/workspace/myapp
+            tar -zcvf /tmp/project/my-app-binary.tar.gz /project/workspace/myapp
       - run:
           name: Deploy to S3
-          command: aws s3 cp /tmp/workspace/my-app-binary.tar.gz s3://toolbox-testing-ci/binary/
+          command: aws s3 cp /tmp/project/my-app-binary.tar.gz s3://toolbox-testing-ci/binary/
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
