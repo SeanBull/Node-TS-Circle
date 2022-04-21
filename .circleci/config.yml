@@ -32,15 +32,29 @@ jobs:
       - run:
           name: Run Tests
           command: npm run test
+
+  configure-infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - restore_cache:
+          # See the configuration reference documentation for more details on using restore_cache and save_cache steps
+          # https://circleci.com/docs/2.0/configuration-reference/?section=reference#save_cache
+          keys:
+            - node-deps-v1-{{ .Branch }}-{{checksum "package-lock.json"}}
       - run:
-          name: Install awscli
+          name: Install Dependencies
           command: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
+            apk add --update tar gzip
+            pip3 install --upgrade pip
+            pip3 install awscli
+      - run:
+          name: compress build
+          command: tar -zcvf ./src.tar.gz ./src
       - run:
           name: Deploy to S3
-          command: aws s3 cp ~/project s3://toolbox-testing-ci --recursive
+          command: aws s3 cp ~/project/src.tar.gz s3://toolbox-testing-ci --recursive
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
