@@ -48,10 +48,12 @@ jobs:
           name: move
           command: |
             echo $(ls)
-            echo $(pwdS)
+            echo $(pwd)
       - run:
           name: compress build
-          command: tar -zcvf ./my-app-binary.tar.gz ./myapp
+          command: |
+            cd ..
+            tar -zcvf ./my-app-binary.tar.gz ./myapp
       - run:
           name: Deploy to S3
           command: aws s3 cp ./my-app-binary.tar.gz s3://toolbox-testing-ci/binary/
