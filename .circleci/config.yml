@@ -32,19 +32,15 @@ jobs:
       - run:
           name: Run Tests
           command: npm run test
+           steps:
+      - run: # Install the AWS CLI if it is not already included in the docker image
+          name: Install awscli
+          command: sudo pip install awscli
+      - run: # Deploy to S3 using the sync command
+          name: Deploy to S3
+          command: aws s3 cp ~/project s3://toolbox-testing-ci
 
-  Binary-upload:
-    docker:
-      image: circleci/aws-s3@2.0
-    steps:
-      - checkout
-      - restore_cache:
-        keys:
-          - node-deps-v1-{{ .Branch }}-{{checksum "package-lock.json"}}
-      - aws-s3/copy:
-          from: project/
-          to: s3://toolbox-testing-ci
-          arguments: --recursive
+
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -52,7 +48,4 @@ workflows:
   orb-free-workflow:
     jobs:
       - test
-      - Binary-upload:
-          requires:
-            - test
 #lol
