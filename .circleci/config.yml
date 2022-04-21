@@ -32,6 +32,11 @@ jobs:
       - run:
           name: Run Tests
           command: npm run test
+      - run:
+          name: test
+          command: |
+            echo $(ls)
+            echo $(pwd)
       - persist_to_workspace:
           root: /
           paths:
