@@ -51,10 +51,10 @@ jobs:
             pip3 install awscli
       - run:
           name: compress build
-          command: tar -zcvf ./src.tar.gz ./src
+          command: tar -zcvf ./my-app-binary.tar.gz .
       - run:
           name: Deploy to S3
-          command: aws s3 cp ~/project/src.tar.gz s3://toolbox-testing-ci --recursive
+          command: aws s3 cp ~/project/my-app-binary.tar.gz s3://toolbox-testing-ci/binary
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
