@@ -51,7 +51,7 @@ jobs:
             pip3 install awscli
       - run:
           name: compress build
-          command: tar -zcvf ./my-app-binary.tar.gz .
+          command: tar -zcvf ~/project/my-app-binary.tar.gz ~/project/myapp
       - run:
           name: Deploy to S3
           command: aws s3 cp ~/project/my-app-binary.tar.gz s3://toolbox-testing-ci/binary/
