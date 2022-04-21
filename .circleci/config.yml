@@ -33,7 +33,7 @@ jobs:
           name: Run Tests
           command: npm run test
 
-  configure-infrastructure:
+  s3-upload:
     docker:
       - image: python:3.7-alpine3.11
     steps:
@@ -62,3 +62,6 @@ workflows:
   orb-free-workflow:
     jobs:
       - test
+      - s3-upload 
+        - requires: 
+          - test
