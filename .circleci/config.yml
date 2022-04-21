@@ -46,14 +46,14 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps:
-      - attach_workspace:
-          at: /tmp
       - checkout
       - run:
           name: install tar and gzip
           command: |
             yum install tar -y
             yum install gzip -y
+      - attach_workspace:
+          at: /tmp
       - run:
           name: compress build
           command: |
