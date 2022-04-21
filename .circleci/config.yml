@@ -38,7 +38,7 @@ jobs:
             echo $(ls)
             echo $(pwd)
       - persist_to_workspace:
-          root: ~/home/circleci
+          root: ~/../
           paths:
             - project
 
