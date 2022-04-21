@@ -33,10 +33,10 @@ jobs:
           name: Run Tests
           command: npm run test
            steps:
-      - run: # Install the AWS CLI if it is not already included in the docker image
+      - run: 
           name: Install awscli
           command: sudo pip install awscli
-      - run: # Deploy to S3 using the sync command
+      - run: 
           name: Deploy to S3
           command: aws s3 cp ~/project s3://toolbox-testing-ci
 
