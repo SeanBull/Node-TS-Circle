@@ -35,14 +35,14 @@ jobs:
       - persist_to_workspace:
           root: /
           paths:
-            - echo-output
+            - project
 
   s3-upload:
     docker:
       - image: amazon/aws-cli
     steps:
       - attach_workspace:
-          at: /tmp/project
+          at: /tmp
       - checkout
       - run:
           name: install tar and gzip
