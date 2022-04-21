@@ -63,5 +63,5 @@ workflows:
     jobs:
       - test
       - s3-upload 
-        - requires: 
+        requires: 
           - test
