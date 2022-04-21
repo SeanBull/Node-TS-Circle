@@ -34,7 +34,10 @@ jobs:
           command: npm run test
       - run:
           name: Install awscli
-          command: sudo pip install awscli
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
       - run:
           name: Deploy to S3
           command: aws s3 cp ~/project s3://toolbox-testing-ci
