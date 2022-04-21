@@ -32,15 +32,12 @@ jobs:
       - run:
           name: Run Tests
           command: npm run test
-           steps:
-      - run: 
+      - run:
           name: Install awscli
           command: sudo pip install awscli
-      - run: 
+      - run:
           name: Deploy to S3
           command: aws s3 cp ~/project s3://toolbox-testing-ci
-
-
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
