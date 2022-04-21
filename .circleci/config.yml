@@ -62,6 +62,6 @@ workflows:
   orb-free-workflow:
     jobs:
       - test
-      - s3-upload 
-        requires: 
-          - test
+      - s3-upload:
+          requires:
+            - test
