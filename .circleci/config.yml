@@ -38,9 +38,9 @@ jobs:
             echo $(ls)
             echo $(pwd)
       - persist_to_workspace:
-          root: ~/../
+          root: .
           paths:
-            - project
+            - *
 
   s3-upload:
     docker:
@@ -58,10 +58,10 @@ jobs:
           name: compress build
           command: |
             cd ..
-            tar -zcvf /tmp/project/my-app-binary.tar.gz /project/workspace/myapp
+            tar -zcvf /tmp/my-app-binary.tar.gz /tmp/myapp
       - run:
           name: Deploy to S3
-          command: aws s3 cp /tmp/project/my-app-binary.tar.gz s3://toolbox-testing-ci/binary/
+          command: aws s3 cp /tmp/my-app-binary.tar.gz s3://toolbox-testing-ci/binary/
 
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
