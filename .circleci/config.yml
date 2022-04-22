@@ -99,6 +99,7 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7} \
             --output text >> .circleci/ansible/inventory.txt
+            cat .circleci/ansible/inventory.txt
 
       - persist_to_workspace:
           root: ~/
@@ -123,6 +124,8 @@ jobs:
       - ansible-prep
       - add_ssh_keys:
           fingerprints: ["69:e5:65:c6:b9:16:55:6d:01:ec:ad:51:0f:55:b6:99"]
+      - attach_workspace:
+          at: ~/
       - run:
           name: ansible playbook run
           command: |
