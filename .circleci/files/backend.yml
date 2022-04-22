@@ -28,7 +28,7 @@ Resources:
       SecurityGroups:
         - Ref: InstanceSecurityGroup
       KeyName: toolbox
-      ImageId: ami-068663a3c619dd892
+      ImageId: ami-08ca3fed11864d6bb
       Tags:
         - Key: Name
           Value: !Sub backend-${ID}
