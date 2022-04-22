@@ -1,8 +1,6 @@
 ---
-- name: "deploy backend"
-  become_user: true
-
 - name: Create a directory if it does not exist
+  become_user: true
   ansible.builtin.file:
     path: ~/toolbox-backend
     state: directory
