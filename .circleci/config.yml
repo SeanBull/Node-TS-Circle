@@ -9,7 +9,7 @@ workflows:
       - api-build-and-test
       - s3-upload:
           requires:
-            - test
+            - api-build-and-test
       - deploy-infrastructure:
           requires:
             - s3-upload
