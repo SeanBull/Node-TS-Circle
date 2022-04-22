@@ -11,13 +11,13 @@
 - name: Simple GET operation
   amazon.aws.aws_s3:
     bucket: toolbox-testing-ci
-    object: /binary/{{ID}}
+    object: /binary/{{ID}}/my-app-binary.tar.gz
     dest: ~/toolbox-backend
     mode: get
 
 - name: Extract S3 Binary
   ansible.builtin.unarchive:
-    src: ~/toolbox-backend/{{ID}}.tar.gz
+    src: ~/toolbox-backend/my-app-binary.tar.gz.tar.gz
     dest: ~/toolbox-backend
 
 - name: "run backend"
