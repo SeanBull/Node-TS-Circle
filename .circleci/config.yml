@@ -188,9 +188,6 @@ commands:
       - run:
           name: Install aws cli
           command: |
-            echo installing awscli
-            pip3 install ansible
-            ansible --version | grep "python version"
             ansible-galaxy collection install amazon.aws
       - run:
           name: Install amazon.aws
