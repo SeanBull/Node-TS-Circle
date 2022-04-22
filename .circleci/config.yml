@@ -154,7 +154,7 @@ commands:
       - run:
           name: remove files
           when: on_fail
-          command: aws s3 rm s3://toolbox-testing-ci/binary--${CIRCLE_WORKFLOW_ID:0:7} --recursive
+          command: aws s3 rm s3://toolbox-testing-ci/binary/${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - run:
           name: Delete Backend
           when: on_fail
@@ -192,6 +192,17 @@ commands:
             pip install awscli
             pip install boto3>1.15.0
             pip install botocore>1.18.0
+            ansible-galaxy collection install amazon.aws
+      - run:
+          name: Install pipstuffs
+          command: |
+            echo installing pipstuffs
+            pip install boto3
+            pip install botocore
+      - run:
+          name: Install amazon.aws
+          command: |
+            echo galaxy do your thing
             ansible-galaxy collection install amazon.aws
 
 #hello
