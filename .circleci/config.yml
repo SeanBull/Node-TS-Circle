@@ -19,6 +19,9 @@ workflows:
           requires:
             - deploy-infrastructure
             - hold
+      - deploy-backend:
+          requires:
+            - deploy-infrastructure
 
 #-------------------------------JOBS-------------------------------------#
 jobs:
@@ -72,7 +75,7 @@ jobs:
 
       - run:
           name: Deploy to S3
-          command: aws s3 cp /my-app-binary.tar.gz s3://toolbox-testing-ci/binary/${CIRCLE_WORKFLOW_ID:0:7}/
+          command: aws s3 cp /my-app-binary.tar.gz s3://toolbox-testing-ci/binary/${CIRCLE_WORKFLOW_ID:0:7}
 
   deploy-infrastructure:
     docker:
