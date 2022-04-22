@@ -13,6 +13,12 @@ workflows:
       - deploy-infrastructure:
           requires:
             - s3-upload
+      - hold:
+          type: approval
+      - destroy-evertything:
+          requires:
+            - deploy-infrastructure
+            - hold
 
 #-------------------------------JOBS-------------------------------------#
 jobs:
@@ -66,7 +72,7 @@ jobs:
 
       - run:
           name: Deploy to S3
-          command: aws s3 cp /my-app-binary.tar.gz s3://toolbox-testing-ci/binary-${CIRCLE_WORKFLOW_ID:0:7}/
+          command: aws s3 cp /my-app-binary.tar.gz s3://toolbox-testing-ci/binary/${CIRCLE_WORKFLOW_ID:0:7}/
 
   deploy-infrastructure:
     docker:
@@ -98,6 +104,29 @@ jobs:
 
       - destroy-environment
 
+  destroy-evertything:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - targzip
+      - destroy-environment
+
+  deploy-backend:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - default-configuration
+      - add_ssh_keys:
+          fingerprints: ["69:e5:65:c6:b9:16:55:6d:01:ec:ad:51:0f:55:b6:99"]
+      - env-loading
+      - run:
+          name: ansible playbook run
+          command: |
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
+      - destroy-environment
+
 #-------------------------------COMMANDS--------------------------#
 commands:
   targzip:
@@ -121,3 +150,15 @@ commands:
           name: Delete Backend
           when: on_fail
           command: aws cloudformation delete-stack --stack-name toolbox-backend-${CIRCLE_WORKFLOW_ID:0:7}
+
+env-loading:
+  description: loading env variables for use in ansible
+  steps:
+    - run:
+        name: loading env files
+        command: |
+          echo ENVIRONMENT=production > backend/.env
+          echo AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID >> backend/.env
+          echo AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY >> backend/.env
+          echo AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION >> backend/.env
+          echo ID=${CIRCLE_WORKFLOW_ID:0:7} >> backend/.env

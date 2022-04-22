@@ -1,0 +1,28 @@
+---
+- name: "deploy backend"
+  become_user: true
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: ~/toolbox-backend
+    state: directory
+    mode: "0755"
+
+- name: Simple GET operation
+  amazon.aws.aws_s3:
+    bucket: toolbox-testing-ci
+    object: /binary/{{ID}}
+    dest: ~/toolbox-backend
+    mode: get
+
+- name: Extract S3 Binary
+  ansible.builtin.unarchive:
+    src: ~/toolbox-backend/{{ID}}.tar.gz
+    dest: ~/toolbox-backend
+
+- name: "run backend"
+  become_user: true
+  shell: |
+    cd ~/toolbox-backend
+    npm install
+    npm start
