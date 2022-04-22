@@ -189,16 +189,8 @@ commands:
           name: Install aws cli
           command: |
             echo installing awscli
-            pip install awscli
-            pip install boto3>1.15.0
-            pip install botocore>1.18.0
+            apt install ansible
             ansible-galaxy collection install amazon.aws
-      - run:
-          name: Install pipstuffs
-          command: |
-            echo installing pipstuffs
-            pip install boto3
-            pip install botocore
       - run:
           name: Install amazon.aws
           command: |
