@@ -53,7 +53,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - tar&gzip
+      - targzip
 
       - attach_workspace:
           at: /tmp
