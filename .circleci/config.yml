@@ -131,6 +131,7 @@ jobs:
           command: |
             echo $(pwd)
             cat .circleci/ansible/inventory.txt
+            echo $(cat .circleci/ansible/inventory.txt)
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
       - destroy-environment
 
