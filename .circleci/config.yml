@@ -154,28 +154,28 @@ commands:
           when: on_fail
           command: aws cloudformation delete-stack --stack-name toolbox-backend-${CIRCLE_WORKFLOW_ID:0:7}
 
-env-loading:
-  description: loading env variables for use in ansible
-  steps:
-    - run:
-        name: loading env files
-        command: |
-          echo ENVIRONMENT=production > backend/.env
-          echo AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID >> backend/.env
-          echo AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY >> backend/.env
-          echo AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION >> backend/.env
-          echo ID=${CIRCLE_WORKFLOW_ID:0:7} >> backend/.env
+  env-loading:
+    description: loading env variables for use in ansible
+    steps:
+      - run:
+          name: loading env files
+          command: |
+            echo ENVIRONMENT=production > backend/.env
+            echo AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID >> backend/.env
+            echo AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY >> backend/.env
+            echo AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION >> backend/.env
+            echo ID=${CIRCLE_WORKFLOW_ID:0:7} >> backend/.env
 
-ansible-prep:
-  description: requirements for ansible image
-  steps:
-    - run:
-        name: Install curl, tar and gzip
-        command: |
-          echo installing curl, tar and gzip
-          apk add --update tar gzip curl
-    - run:
-        name: Install ansible
-        command: |
-          echo Installing ansisble
-          apk add --update ansible
+  ansible-prep:
+    description: requirements for ansible image
+    steps:
+      - run:
+          name: Install curl, tar and gzip
+          command: |
+            echo installing curl, tar and gzip
+            apk add --update tar gzip curl
+      - run:
+          name: Install ansible
+          command: |
+            echo Installing ansisble
+            apk add --update ansible
