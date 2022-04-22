@@ -132,7 +132,7 @@ jobs:
             echo $(pwd)
             cat .circleci/ansible/inventory.txt
             echo $(cat .circleci/ansible/inventory.txt)
-            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml \
+            python3 $(which ansible-playbook) -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml \
             -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} ID=${CIRCLE_WORKFLOW_ID:0:7}"
       - destroy-environment
 
@@ -189,7 +189,8 @@ commands:
           name: Install aws cli
           command: |
             echo installing awscli
-            apt install ansible
+            pip3 install ansible
+            ansible --version | grep "python version"
             ansible-galaxy collection install amazon.aws
       - run:
           name: Install amazon.aws
