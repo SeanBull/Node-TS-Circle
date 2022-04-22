@@ -1,14 +1,9 @@
 ---
-- name: "run backend"
-  become_user: true
-  shell: |
-    pwd 
-    ls 
-
-- name: "run backend"
-  become_user: true
-  shell: |
-    echo {{ID}}
+- name: Install bottle python package
+  pip:
+    name:
+      - botocore
+      - boto3
 
 - name: Create a directory if it does not exist
   become_user: true
