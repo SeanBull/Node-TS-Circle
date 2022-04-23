@@ -16,13 +16,13 @@
   amazon.aws.aws_s3:
     bucket: toolbox-testing-ci
     mode: get
-    object: "binary/{{ID:0:7}}"
+    object: "binary/{{ID}}"
     dest: "/toolbox-backend"
   register: getresult
 
 - name: Extract S3 Binary
   ansible.builtin.unarchive:
-    src: ./toolbox-backend/{{ID:0:7}}
+    src: ./toolbox-backend/{{ID}}
     dest: ./toolbox-backend
 
 - name: "run backend"
