@@ -9,7 +9,9 @@ workflows:
       - api-build-and-test:
           filters:
             branches:
-              only: development
+              only:
+                - development
+                - production
       - s3-upload:
           requires:
             - api-build-and-test
@@ -141,6 +143,14 @@ jobs:
             -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} ID=${CIRCLE_WORKFLOW_ID:0:7}"
       - destroy-environment
 
+  production:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - run:
+          name: prod baby
+          command: |
+            echo production baby
 #-------------------------------COMMANDS--------------------------#
 commands:
   targzip:
