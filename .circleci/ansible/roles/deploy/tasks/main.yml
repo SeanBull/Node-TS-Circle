@@ -25,7 +25,7 @@
     mode: "0755"
 
 - name: GET/DOWNLOAD file from S3 bucket
-  amazon.aws.aws_s3:apt 
+  amazon.aws.aws_s3:
     bucket: toolbox-testing-ci
     mode: get
     object: "binary/{{ID}}"
