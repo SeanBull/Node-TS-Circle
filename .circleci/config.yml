@@ -11,6 +11,8 @@ workflows:
       - destroy-evertything:
           requires:
             - hold
+          context:
+            - production
       - api-build-and-test:
           filters:
             branches:
@@ -20,12 +22,18 @@ workflows:
       - s3-upload:
           requires:
             - api-build-and-test
+          context:
+            - production
       - deploy-infrastructure:
           requires:
             - s3-upload
+          context:
+            - production
       - deploy-backend:
           requires:
             - deploy-infrastructure
+          context:
+            - production
       - production:
           requires:
             - deploy-backend
@@ -122,7 +130,6 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps:
-      - checkout
       - targzip
       - destroy-environment
 
@@ -144,7 +151,6 @@ jobs:
             echo $(cat .circleci/ansible/inventory.txt)
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml \
             -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} ID=${CIRCLE_WORKFLOW_ID:0:7}"
-      - destroy-environment
 
   production:
     docker:

@@ -15,4 +15,6 @@
   #   - ID: = "{{ lookup('env', 'CIRCLE_WORKFLOW_ID:0:7')}}"
 
   roles:
+    - apt
+    - python
     - deploy

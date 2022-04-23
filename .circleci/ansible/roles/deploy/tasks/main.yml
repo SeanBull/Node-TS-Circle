@@ -1,15 +1,23 @@
 ---
-- name: "apt"
-  become_user: true
-  shell: |
-    sudo apt update 
-    sudo apt upgrade
-
-- name: Update repositories cache and install "foo" package
-  become_user: true
+---
+- name: "update apt packages."
+  become: yes
   apt:
-    name: python3-pip
     update_cache: yes
+
+- name: "upgrade packages"
+  become: yes
+  apt:
+    upgrade: yes
+
+- name: remove dependencies that are no longer required
+  become: yes
+  apt:
+    autoremove: yes
+
+- name: Install Python if not there
+  apt: name={{ item }} state=latest update_cache=yes
+  loop: ["python3", "python3-pip"]
 
 - name: Install bottle python package
   pip:
