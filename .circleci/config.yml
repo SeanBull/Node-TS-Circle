@@ -4,7 +4,7 @@ version: 2.1
 
 #-------------------------------WORKFLOW-------------------------------------#
 workflows:
-  Toolbox-backend-DEV:
+  Toolbox-backend:
     jobs:
       - hold:
           type: approval
@@ -26,8 +26,6 @@ workflows:
       - deploy-backend:
           requires:
             - deploy-infrastructure
-  Toolbox-backend-PROD:
-    jobs:
       - production:
           requires:
             - deploy-backend
