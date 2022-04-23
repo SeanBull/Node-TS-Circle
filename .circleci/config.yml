@@ -6,7 +6,10 @@ version: 2.1
 workflows:
   Toolbox-backend:
     jobs:
-      - api-build-and-test
+      - api-build-and-test:
+          filters:
+            branches:
+              only: development
       - s3-upload:
           requires:
             - api-build-and-test
@@ -15,13 +18,15 @@ workflows:
             - s3-upload
       - hold:
           type: approval
-      - destroy-evertything:
-          requires:
-            - deploy-infrastructure
-            - hold
       - deploy-backend:
           requires:
             - deploy-infrastructure
+      - production:
+          requires:
+            - deploy-backend
+          filters:
+            branches:
+              only: production
 
 #-------------------------------JOBS-------------------------------------#
 jobs:
