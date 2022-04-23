@@ -200,7 +200,7 @@ commands:
       - run:
           name: loading env files
           command: |
-            ID=${CIRCLE_WORKFLOW_ID:0:7}
+            export ID=${CIRCLE_WORKFLOW_ID:0:7}
 
   ansible-prep:
     description: requirements for ansible image
