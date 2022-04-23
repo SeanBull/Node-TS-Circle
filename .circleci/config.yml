@@ -8,7 +8,7 @@ workflows:
     jobs:
       - hold:
           type: approval
-      - destroy-evertything:
+      - destroy-everything:
           requires:
             - hold
           context:
@@ -126,7 +126,7 @@ jobs:
 
       - destroy-environment
 
-  destroy-evertything:
+  destroy-everything:
     docker:
       - image: amazon/aws-cli
     steps:
