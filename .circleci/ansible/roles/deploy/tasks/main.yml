@@ -17,7 +17,7 @@
     bucket: toolbox-testing-ci
     mode: get
     object: "binary/{{ID}}"
-    dest: "/toolbox-backend"
+    dest: "/toolbox-backend/{{ID}}"
   register: getresult
 
 - name: Extract S3 Binary
