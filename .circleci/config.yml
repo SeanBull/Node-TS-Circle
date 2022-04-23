@@ -148,7 +148,8 @@ jobs:
           name: ansible playbook run
           command: |
             echo $(cat .circleci/ansible/inventory.txt)
-            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml \
+            -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} ID=${ID}"
 
   production:
     docker:
