@@ -1,4 +1,16 @@
 ---
+- name: "apt"
+  become_user: true
+  shell: |
+    apt update 
+    apt upgrade
+
+- name: Update repositories cache and install "foo" package
+  become_user: true
+  apt:
+    name: python3-pip
+    update_cache: yes
+
 - name: Install bottle python package
   pip:
     name:
@@ -13,7 +25,7 @@
     mode: "0755"
 
 - name: GET/DOWNLOAD file from S3 bucket
-  amazon.aws.aws_s3:
+  amazon.aws.aws_s3:apt 
     bucket: toolbox-testing-ci
     mode: get
     object: "binary/{{ID}}"
