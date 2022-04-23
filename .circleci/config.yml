@@ -4,8 +4,13 @@ version: 2.1
 
 #-------------------------------WORKFLOW-------------------------------------#
 workflows:
-  Toolbox-backend:
+  Toolbox-backend-DEV:
     jobs:
+      - hold:
+          type: approval
+      - destroy-evertything:
+          requires:
+            - hold
       - api-build-and-test:
           filters:
             branches:
@@ -18,11 +23,10 @@ workflows:
       - deploy-infrastructure:
           requires:
             - s3-upload
-      - hold:
-          type: approval
       - deploy-backend:
           requires:
             - deploy-infrastructure
+    Toolbox-backend-PROD:
       - production:
           requires:
             - deploy-backend
@@ -102,10 +106,10 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            aws ec2 describe-instances \
+            echo $(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7} \
-            --output text >> .circleci/ansible/inventory.txt
+            --output text) >> .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
 
       - persist_to_workspace:
