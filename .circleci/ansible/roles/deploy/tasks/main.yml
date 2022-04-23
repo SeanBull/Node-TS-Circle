@@ -2,8 +2,8 @@
 - name: "apt"
   become_user: true
   shell: |
-    apt update 
-    apt upgrade
+    sudo apt update 
+    sudo apt upgrade
 
 - name: Update repositories cache and install "foo" package
   become_user: true
