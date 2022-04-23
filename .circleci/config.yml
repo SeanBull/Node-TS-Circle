@@ -26,7 +26,8 @@ workflows:
       - deploy-backend:
           requires:
             - deploy-infrastructure
-    Toolbox-backend-PROD:
+  Toolbox-backend-PROD:
+    jobs:
       - production:
           requires:
             - deploy-backend
@@ -213,5 +214,3 @@ commands:
           command: |
             echo galaxy do your thing
             ansible-galaxy collection install amazon.aws
-
-#hello
