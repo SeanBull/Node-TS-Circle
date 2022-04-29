@@ -18,7 +18,7 @@
     bucket: toolbox-testing-ci
     mode: get
     object: "binary/{{ID}}.tar.gz"
-    dest: "/home/ubuntu/toolbox-backend/{{ID}}.tar.gz"
+    dest: "/home/ubuntu/toolbox-backend"
   register: getresult
 
 - name: Extract S3 Binary
