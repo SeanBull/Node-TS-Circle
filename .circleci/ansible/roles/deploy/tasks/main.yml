@@ -10,17 +10,19 @@
   ansible.builtin.file:
     path: /home/ubuntu/toolbox-backend
     state: directory
-    mode: "0755"
+    mode: "0777"
 
 - name: GET/DOWNLOAD file from S3 bucket
+  become_user: true
   amazon.aws.aws_s3:
     bucket: toolbox-testing-ci
     mode: get
     object: "binary/{{ID}}.tar.gz"
-    dest: "/toolbox-backend{{ID}}.tar.gz"
+    dest: "/toolbox-backend/{{ID}}.tar.gz"
   register: getresult
 
 - name: Extract S3 Binary
+  become_user: true
   ansible.builtin.unarchive:
     src: ./toolbox-backend/{{ID}}.tar.gz
     dest: ./toolbox-backend
