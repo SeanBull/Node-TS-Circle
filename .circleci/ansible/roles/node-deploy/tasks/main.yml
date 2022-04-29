@@ -3,6 +3,11 @@
   become: yes
   npm:
     path: /home/ubuntu/toolbox-backend
+- name: install pm2 globally
+  become: yes
+  npm:
+    name: pm2
+    global: yes
 - name: Start the application
   become: yes
   command:

@@ -1,9 +1,7 @@
 {
-  "name": "typescript-express",
+  "name": "myapp",
   "version": "1.0.0",
   "main": "src/index.ts",
-  "repository": "git@github.com:klzns/typescript-express.git",
-  "author": "Breno Calazans <brenocalazans@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -13,9 +11,10 @@
     "winston": "^3.2.1"
   },
   "scripts": {
-    "start": "npm run serve",
+    "start": "npm run pm2-baby",
     "build": "npm run build-ts && npm run lint",
     "serve": "node build/server.js",
+    "pm2-baby": "pm2 start build/server.js",
     "watch-node": "nodemon build/server.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
     "build-ts": "tsc",
