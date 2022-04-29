@@ -1,0 +1,17 @@
+---
+- name: Install dependencies
+  become: yes
+  npm:
+    path: /home/ubuntu/toolbox-backend
+- name: Start the application
+  become: yes
+  command:
+    chdir: /home/ubuntu/toolbox-backend
+    cmd: node server
+  async: 1000
+  poll: 0
+- name: Ensure app is running
+  become: yes
+  shell: ps aux | grep node
+  register: app_status
+- debug: msg={{app_status.stdout_lines}}-

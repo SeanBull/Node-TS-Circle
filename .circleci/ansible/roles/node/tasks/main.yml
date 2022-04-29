@@ -1,0 +1,16 @@
+---
+- name: Update apt repo and cache
+  apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+- name: Install nodejs and npm
+  become: yes
+  apt:
+    pkg:
+      - nodejs
+      - npm
+
+- name: Create linux user
+  become: yes
+  user:
+    name: node
+    comment: Node User
+    group: admin

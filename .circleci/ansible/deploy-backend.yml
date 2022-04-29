@@ -17,4 +17,6 @@
   roles:
     - apt
     - python
-    - deploy
+    - get-app
+    - node
+    - node-deploy

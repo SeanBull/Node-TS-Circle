@@ -12,24 +12,8 @@
     state: directory
     mode: "0777"
 
-- name: GET/DOWNLOAD file from S3 bucket
-  become_user: true
-  amazon.aws.aws_s3:
-    bucket: toolbox-testing-ci
-    mode: get
-    object: "binary/{{ID}}.tar.gz"
-    dest: "/home/ubuntu/toolbox-backend"
-  register: getresult
-
 - name: Extract S3 Binary
-  become_user: true
   ansible.builtin.unarchive:
+    remote_src: true
     src: /home/ubuntu/toolbox-backend/{{ID}}.tar.gz
     dest: /home/ubuntu/toolbox-backend
-
-- name: "run backend"
-  become_user: true
-  shell: |
-    cd /home/ubuntu/toolbox-backend
-    npm install
-    npm start
